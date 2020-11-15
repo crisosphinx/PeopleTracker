@@ -1,0 +1,1 @@
+.\venv\Scripts\p4a apk --requirements=kivy --private /home/username/PeopleTracker/PeopleTracker --package=net.PeopleTracker --name="PeopleTracker" --version=0.1 --bootstrap=sdl2
