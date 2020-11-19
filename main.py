@@ -9,6 +9,7 @@ from kivy.uix.tabbedpanel import TabbedPanelHeader as TabHdr
 from kivy_garden.graph import Graph, MeshLinePlot
 import json
 
+__version__ = "0.0.1"
 DEBUG = False
 
 
@@ -26,12 +27,12 @@ class MainApp(App):
         self.total = int()
         self.tally_mask_amt = int()
         self.tally_no_mask_amt = int()
-        self.tally_take_mask_amt = int()
+        self.tally_take_w_mask_amt = int()
         self.tally_take_wo_mask_amt = int()
         self.total_txt = 'Total: '
         self.mask_txt = 'Mask: '
         self.no_mask_txt = 'No Mask: '
-        self.take_mask_txt = 'Take Mask: '
+        self.take_w_mask_txt = 'Take W Mask: '
         self.take_wo_mask_txt = 'Take WO Mask: '
 
         # Graph
@@ -41,11 +42,11 @@ class MainApp(App):
         self.total_lbl = None
         self.mask_lbl = None
         self.no_mask_lbl = None
-        self.take_mask_lbl = None
+        self.take_w_mask_lbl = None
         self.take_wo_mask_lbl = None
         self.tally_mask = None
         self.tally_no_mask = None
-        self.tally_take_mask = None
+        self.tally_take_w_mask = None
         self.tally_take_wo_mask = None
         self.export_info = None
 
@@ -58,7 +59,7 @@ class MainApp(App):
             # Put in the format of tallies
             "Mask": [self.tally_mask_amt, {}],
             "NoMask": [self.tally_no_mask_amt, {}],
-            "TookMask": [self.tally_take_mask_amt, {}],
+            "TookMask": [self.tally_take_w_mask_amt, {}],
             "WoMask": [self.tally_take_wo_mask_amt, {}],
             "Total": self.total
         }
@@ -88,8 +89,8 @@ class MainApp(App):
             size_hint=(self.x, self.y),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
-        self.take_mask_lbl = Lbl(
-            text="{0}{1}".format(self.take_mask_txt, self.tally_take_mask_amt),
+        self.take_w_mask_lbl = Lbl(
+            text="{0}{1}".format(self.take_w_mask_txt, self.tally_take_w_mask_amt),
             size_hint=(self.x, self.y),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
@@ -108,7 +109,7 @@ class MainApp(App):
             size_hint=(self.x, self.y),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
         )
-        self.tally_take_mask = Btn(
+        self.tally_take_w_mask = Btn(
             text="No Mask, Take Mask",
             size_hint=(self.x, self.y),
             pos_hint={"center_x": 0.5, "center_y": 0.5},
@@ -133,12 +134,12 @@ class MainApp(App):
         _inside.add_widget(self.total_lbl)
         _inside.add_widget(self.mask_lbl)
         _inside.add_widget(self.no_mask_lbl)
-        _inside.add_widget(self.take_mask_lbl)
+        _inside.add_widget(self.take_w_mask_lbl)
         _inside.add_widget(self.take_wo_mask_lbl)
         _grid.add_widget(widget=_box)
         _grid.add_widget(widget=self.tally_mask)
         _grid.add_widget(widget=self.tally_no_mask)
-        _grid.add_widget(widget=self.tally_take_mask)
+        _grid.add_widget(widget=self.tally_take_w_mask)
         _grid.add_widget(widget=self.tally_take_wo_mask)
         _grid.add_widget(widget=self.export_info)
 
@@ -160,7 +161,7 @@ class MainApp(App):
 
         self.tally_mask.bind(on_press=lambda x: self.tallier(0))
         self.tally_no_mask.bind(on_press=lambda x: self.tallier(1))
-        self.tally_take_mask.bind(on_press=lambda x: self.tallier(2))
+        self.tally_take_w_mask.bind(on_press=lambda x: self.tallier(2))
         self.tally_take_wo_mask.bind(on_press=lambda x: self.tallier(3))
         self.export_info.bind(on_press=lambda x: self.export_doc())
 
@@ -188,10 +189,10 @@ class MainApp(App):
             self.no_mask_lbl.text = "{0}{1}".format(self.no_mask_txt, self.tally_no_mask_amt)
 
         if _input == 2:
-            self.tally_take_mask_amt += 1
-            self.analytics["TookMask"][0] = self.tally_take_mask_amt
-            self.analytics["TookMask"][1].setdefault(self.tally_take_mask_amt, _get_time)
-            self.take_mask_lbl.text = "{0}{1}".format(self.take_mask_txt, self.tally_take_mask_amt)
+            self.tally_take_w_mask_amt += 1
+            self.analytics["TookMask"][0] = self.tally_take_w_mask_amt
+            self.analytics["TookMask"][1].setdefault(self.tally_take_w_mask_amt, _get_time)
+            self.take_w_mask_lbl.text = "{0}{1}".format(self.take_w_mask_txt, self.tally_take_w_mask_amt)
 
         if _input == 3:
             self.tally_take_wo_mask_amt += 1
